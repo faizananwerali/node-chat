@@ -1,3 +1,5 @@
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,14 +11,29 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 //routes
-app.all('/', (req, res) => {
+app.get('/', (req, res) => {
     res.render('index')
 });
 
-var server = app.listen(port, function () {
-    var host = server.address().address;
-    var port = server.address().port;
-    console.log('App listening at wss://%s:%s', host, port);
+var domain = process.env.DOMAIN ||'node-chat.faizanrupani.dev';
+var options = {
+    key: fs.readFileSync(path.resolve(__dirname, 'certificates/' + domain + '/certificate.key')),
+    cert: fs.readFileSync(path.resolve(__dirname, 'certificates/' + domain + '//certificate.crt')),
+};
+console.log(options);
+
+//app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+var server = https.createServer(options, app);
+server.listen(port, domain, function (){
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log('App listening at wss://%s:%s and host: %s', domain, port, host);
+}).on('error', function(err) {
+    if (err.errno === 'EADDRINUSE') {
+        console.log('port busy');
+    } else {
+        console.log(err);
+    }
 });
 
 //socket.io instantiation
