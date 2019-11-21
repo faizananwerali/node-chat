@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 443;
+const port = process.env.PORT || 3000;
 
 //set the template engine ejs
 app.set('view engine', 'ejs');
