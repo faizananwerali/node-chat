@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
     res.render('index')
 });
 
-//var DOMAIN = process.env.DOMAIN ||'node-chat-faizan.herokuapp.com';
+var DOMAIN = process.env.DOMAIN ||'node-chat-faizan.herokuapp.com';
 //app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 /*var server = https.createServer(options, app);
 server.listen(port, DOMAIN, function (){
@@ -36,7 +36,7 @@ server.listen(port, DOMAIN, function (){
         console.log(err);
     }
 });*/
-var server = app.listen(port, function () {
+var server = app.listen(port, DOMAIN, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log('App listening at wss://%s:%s', host, port);
