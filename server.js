@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
     res.render('index')
 });
 
-var server = app.listen(port, 'node-chat-faizan.herokuapp.com', function () {
+var server = app.listen(port, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log('App listening at wss://%s:%s', host, port);
