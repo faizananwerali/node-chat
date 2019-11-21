@@ -2,7 +2,7 @@
 $(function(){
    	//make connection
 	//var socket = io.connect('http://localhost:3000');
-	var socket = io.connect('wss://' + window.location.hostname + ':38762', {transports: ['websocket'], secure: true});
+	var socket = io.connect('wss://' + window.location.hostname + ':11669', {transports: ['websocket'], secure: true});
 	//var socket = io(window.location.hostname, {transports: ['websocket']});
 
 	//buttons and inputs
