@@ -1,5 +1,8 @@
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
 const app = express();
+const port = process.env.PORT || 54494;
 
 //set the template engine ejs
 app.set('view engine', 'ejs');
@@ -12,17 +15,15 @@ app.get('/', (req, res) => {
     res.render('index')
 });
 
-var https = require('https');
-var fs = require('fs');
-
-var domain = proccess.env.DOMAIN ||'node-chat.faizanrupani.dev';
+var domain = process.env.DOMAIN ||'node-chat.faizanrupani.dev';
 var options = {
     key: fs.readFileSync(path.resolve(__dirname, 'certificates/' + domain + '/certificate.key')),
     cert: fs.readFileSync(path.resolve(__dirname, 'certificates/' + domain + '//certificate.crt')),
 };
 
+//app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 var server = https.createServer(options, app);
-var port = proccess.env.PORT || 80;
+server.listen(port);
 server.listen(port, domain, function (){
   var host = server.address().address;
   var port = server.address().port;
@@ -41,10 +42,10 @@ const io = socket_io(server);
 
 //listen on every connection
 io.on('connection', (socket) => {
-	console.log('New user connected');
+    console.log('New user connected');
 
-	//default username
-	socket.username = "Anonymous";
+    //default username
+    socket.username = "Anonymous";
 
     //listen on change_username
     socket.on('change_username', (data) => {
@@ -59,6 +60,6 @@ io.on('connection', (socket) => {
 
     //listen on typing
     socket.on('typing', (data) => {
-    	socket.broadcast.emit('typing', {username : socket.username});
+        socket.broadcast.emit('typing', {username : socket.username});
     });
 });
