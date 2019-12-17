@@ -1,12 +1,8 @@
 
 $(function(){
    	//make connection
-	var socket;
-	if (location.protocol === 'https:')	{
-		socket = io.connect('wss://' + window.location.hostname + ':' + location.port, {transports: ['websocket'], secure: true});
-	} else {
-		socket = io.connect('ws://' + window.location.hostname + ':' + location.port, {transports: ['websocket'], secure: false});
-	}
+	var socket_protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
+	var socket = io.connect(socket_protocol + window.location.hostname + ':' + location.port, {transports: ['websocket'], secure: false});
 
 	//buttons and inputs
 	var message = $("#message");
